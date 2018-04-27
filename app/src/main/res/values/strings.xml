@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">ProjetRobot</string>
+    <string name="editText">Entrez le nom d une action</string>
+    <string name="buttonAjouterInter">Ajouter une interraction </string>
+
+    <string name="buttonModifInter">Modifier/Supprimer une interraction </string>
+    <string name="buttonAjouterVocalInter">Ajouter une interraction vocale </string>
+    <string name="buttonAjouterMouvInter">Ajouter une interraction impliquant le mouvement du robot </string>*
+    <string name="buttonAjouterWritenInter">Ajouter une interraction écrite </string>
+    <string name="buttonAjouterProjInter">Ajouter une interraction impliquant le projecteur du robot </string>
 </resources>
