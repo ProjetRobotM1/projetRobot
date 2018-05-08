@@ -8,4 +8,10 @@
     <string name="buttonAjouterMouvInter">Ajouter une interraction impliquant le mouvement du robot </string>*
     <string name="buttonAjouterWritenInter">Ajouter une interraction écrite </string>
     <string name="buttonAjouterProjInter">Ajouter une interraction impliquant le projecteur du robot </string>
+    <string name="buttonScenarioLabo">SCENARIO LABO </string>
+    <string name="buttonListeScenario">Liste des scénarios</string>
+    <string name="addScenario">Ajouter un Scenario</string>
+    <string name="validerScenario">Valider</string>
+
+
 </resources>

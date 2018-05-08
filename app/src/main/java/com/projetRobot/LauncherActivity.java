@@ -12,7 +12,8 @@ import android.widget.Button;
  */
 
 public class LauncherActivity  extends Activity {
-    private Button addInter, editInter;
+    private Button addInter, editInter, addScenario;
+    private Button listeScenario;
     private Context context;
 
     @Override
@@ -26,6 +27,24 @@ public class LauncherActivity  extends Activity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, AddActionActivity.class);
+                startActivity(myIntent);
+            }
+        });
+
+        listeScenario=findViewById(R.id.listeScenarioBtn);
+        listeScenario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context, ListScenarioActivity.class);
+                startActivity(myIntent);
+            }
+        });
+
+        addScenario=findViewById(R.id.addScenarioBtn);
+        addScenario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context, CreateScenarioActivity.class);
                 startActivity(myIntent);
             }
         });
