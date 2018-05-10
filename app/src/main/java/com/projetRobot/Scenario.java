@@ -7,6 +7,8 @@ package com.projetRobot;
 public class Scenario {
     public String name;
 
+    public Scenario() {
+    }
 
     public Scenario(String name) {
         this.name = name;
@@ -21,6 +23,8 @@ public class Scenario {
         this.name = name;
     }
 
-
-
+    @Override
+    public String toString() {
+        return   name ;
+    }
 }

@@ -2,20 +2,17 @@ package com.projetRobot;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
-import com.qihancloud.opensdk.*;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import  com.projetRobot.LauncherActivity;
 
-import com.qihancloud.opensdk.beans.FuncConstant;
-import com.qihancloud.opensdk.function.beans.wheelmotion.DistanceWheelMotion;
-import com.qihancloud.opensdk.function.unit.WheelMotionManager;
-import com.qihancloud.opensdk.beans.FuncConstant;
-
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Hugo on 08/05/2018.
@@ -23,21 +20,43 @@ import java.util.List;
 
 public class ListScenarioActivity extends Activity {
     private Context context;
-    public static List<Scenario> listScenario ;
+    //private   ArrayList<Scenario> listScenarAffichee = new ArrayList<Scenario>() ;
 
     ListView listView ;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
-        listView =  findViewById(R.id.list);
+       // System.out.println("LISTE SCENARIO : "+ listScenarAffichee);
+
         super.onCreate(savedInstanceState);
-        listScenario=new ArrayList<Scenario>();
+        setContentView(R.layout.listscenario_activity);
+        context = this.getApplicationContext();
+
+        listView =  findViewById(R.id.listViewScenario);
+
+        SharedPreferences sharedPreferences=getSharedPreferences("shared preferences",MODE_PRIVATE);
+        Gson gson= new Gson();
+        String json=sharedPreferences.getString("testlist",null);
+        Type type =new TypeToken<ArrayList<Scenario>>(){}.getType();
+        System.out.println("JSON"+json);
+
+            ArrayList<Scenario> listScenarAffichee= gson.fromJson(json, type);
+
+        if ( listScenarAffichee==null){
+             listScenarAffichee= new ArrayList<>();
+        }
+        System.out.println(json);
+
+
+
+
 
         ArrayAdapter<Scenario> adapter =new ArrayAdapter<Scenario>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, listScenario);
-        setContentView(R.layout.listscenario_activity);
+               android.R.layout.simple_list_item_1, android.R.id.text1, listScenarAffichee);
+
+
         listView.setAdapter(adapter);
-        context = this.getApplicationContext();
+
 
     }
 }
