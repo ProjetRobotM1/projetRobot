@@ -1,10 +1,12 @@
 package com.projetRobot;
 
+import java.io.Serializable;
+
 /**
  * Created by Hugo on 08/05/2018.
  */
 
-public class Scenario {
+public class Scenario implements Serializable{
     public String name;
 
     public Scenario() {
