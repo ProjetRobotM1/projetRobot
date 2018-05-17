@@ -54,6 +54,7 @@ public class LauncherActivity  extends Activity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, CreateScenarioActivity.class);
+                myIntent.putExtra("scenario","null");
                 startActivity(myIntent);
             }
         });
