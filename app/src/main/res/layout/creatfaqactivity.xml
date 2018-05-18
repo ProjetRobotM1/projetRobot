@@ -2,4 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/addquestion"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:hint="Entrez la question"
+        android:lines="2" />
+
+    <EditText
+        android:id="@+id/addreponse"
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/addquestion"
+        android:layout_marginTop="61dp"
+        android:hint="Entrez la réponse"
+        android:lines="2" />
+
+    <Button
+        android:id="@+id/validerQR"
+        style="@android:style/Widget.Button.Inset"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/addreponse"
+        android:layout_marginTop="16dp"
+        android:text="Sauvegarder" />
+
+
+
 </RelativeLayout>

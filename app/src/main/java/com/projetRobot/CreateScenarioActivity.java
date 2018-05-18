@@ -37,6 +37,10 @@ public class CreateScenarioActivity extends Activity {
         setContentView(R.layout.createscenario_activity);
         Intent i = getIntent();
         Scenario scenariocree=new Scenario();
+        scenariocree.setName("TEST1");
+        ArrayList<Scenario> listScenario = getListScenario();
+        listScenario.add(scenariocree);
+        setListScenario(listScenario);
         if(!i.getSerializableExtra("scenario").equals("null")) {
              scenariocree = (Scenario) i.getSerializableExtra("scenario");
         }
@@ -70,12 +74,15 @@ public class CreateScenarioActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, ListFAQActivity.class);
+                ArrayList<Scenario> listScenario = getListScenario();
+                int posScenario=listScenario.size()-1;
                 myIntent.putExtra("pos",-1);
                 Intent i = getIntent();
                 Scenario scenariocree=new Scenario();
                 if(!i.getSerializableExtra("scenario").equals("null")) {
                     scenariocree = (Scenario) i.getSerializableExtra("scenario");
                 }
+                myIntent.putExtra("poscenario",posScenario);
                 myIntent.putExtra("scenario",scenariocree);
                 scenariocree.setName("TEST");
                 System.out.println("intent scenario: "+ scenariocree.toString());
@@ -100,7 +107,15 @@ public class CreateScenarioActivity extends Activity {
         }
         return listScenarAffichee;
     }
+    public void setListScenario(ArrayList<Scenario> listScenToUpdate){
+        SharedPreferences sharedPreferences=getSharedPreferences("shared preferences",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gsonpush = new Gson();
+        String jsonpush = gsonpush.toJson(listScenToUpdate);
+        editor.putString("testlist", jsonpush);
+        editor.apply();
 
+    }
 
 
 }
