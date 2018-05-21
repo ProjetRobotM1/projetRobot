@@ -87,6 +87,23 @@ public class ListFAQActivity extends Activity {
 
 
             listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> arg0, View view, int position,long itemID) {
+                    Intent getposIntent = getIntent();
+                    ArrayList<Scenario> listScenario = getListScenario();
+                    int poscenario = getposIntent.getIntExtra("poscenario", -1);
+                    int posfaq = getposIntent.getIntExtra("posfaq", -1);
+                    int posQR = position;
+
+                    Intent i = new Intent(context, CreateFAQActivity.class);
+                    i.putExtra("poscenario", poscenario);
+                    i.putExtra("posfaq", posfaq);
+                    i.putExtra("posQR", posQR);
+
+                    onDestroy();
+                    startActivity(i);
+                }});
+
 
             registerForContextMenu(listView);
         }
@@ -184,44 +201,28 @@ public class ListFAQActivity extends Activity {
             ListView lv = (ListView) v;
             AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
-            menu.setHeaderTitle("Choisissez l'action");
-            menu.add("Modifier");
+
             menu.add("Supprimer");
 
         }
 
     }
+
     @Override
-    public boolean onContextItemSelected(MenuItem item){
-        if(item.getTitle()=="Modifier"){
+    public boolean onContextItemSelected(MenuItem item) {
+       if (item.getTitle() == "Supprimer") {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            Intent getposIntent=getIntent();
-            ArrayList<Scenario>listScenario=getListScenario();
-            int poscenario=getposIntent.getIntExtra("poscenario",-1);
-            int posfaq=getposIntent.getIntExtra("posfaq",-1);
-            int posQR=info.position;
-
-            Intent i = new Intent(this, CreateFAQActivity.class);
-            i.putExtra("poscenario", poscenario);
-            i.putExtra("posfaq",posfaq);
-            i.putExtra("posQR",posQR);
-
-            onDestroy();
-            startActivity(i);
-        }
-        else if(item.getTitle()=="Supprimer"){
-            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            Intent getposIntent=getIntent();
-            ArrayList<Scenario>listScenario=getListScenario();
-            int poscenario=getposIntent.getIntExtra("poscenario",-1);
-            int posfaq=getposIntent.getIntExtra("posfaq",-1);
-            int posQR=info.position;
+            Intent getposIntent = getIntent();
+            ArrayList<Scenario> listScenario = getListScenario();
+            int poscenario = getposIntent.getIntExtra("poscenario", -1);
+            int posfaq = getposIntent.getIntExtra("posfaq", -1);
+            int posQR = info.position;
             listScenario.get(poscenario).getFaq().get(posfaq).getReponses().remove(posQR);
             listScenario.get(poscenario).getFaq().get(posfaq).getQuestions().remove(posQR);
             setListScenario(listScenario);
-            Toast.makeText(getApplicationContext(),"Q/R supprimé avec succès",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Q/R supprimé avec succès", Toast.LENGTH_LONG).show();
             recreate();
-        }else{
+        } else {
             return false;
         }
         return true;

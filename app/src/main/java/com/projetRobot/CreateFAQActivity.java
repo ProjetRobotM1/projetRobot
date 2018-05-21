@@ -26,21 +26,22 @@ public class CreateFAQActivity extends Activity {
     private EditText reponse;
     private Context context;
     private Button saveQR;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.creatfaqactivity);
         context = this.getApplicationContext();
-        question= (EditText) findViewById(R.id.addquestion);
-        reponse= (EditText) findViewById(R.id.addreponse);
-        saveQR=findViewById(R.id.validerQR);
-        Intent i=getIntent();
-        final int posQR=i.getIntExtra("posQR",-1);
-        final int poscenario=i.getIntExtra("poscenario",-1);
-        int posfaq=i.getIntExtra("posfaq",-1);
-        if(posQR!=-1){
-            ArrayList<Scenario>listScenario=getListScenario();
+        question = (EditText) findViewById(R.id.addquestion);
+        reponse = (EditText) findViewById(R.id.addreponse);
+        saveQR = findViewById(R.id.validerQR);
+        Intent i = getIntent();
+        final int posQR = i.getIntExtra("posQR", -1);
+        final int poscenario = i.getIntExtra("poscenario", -1);
+        int posfaq = i.getIntExtra("posfaq", -1);
+        if (posQR != -1) {
+            ArrayList<Scenario> listScenario = getListScenario();
             question.setText(listScenario.get(poscenario).getFaq().get(posfaq).getQuestions().get(posQR));
             reponse.setText(listScenario.get(poscenario).getFaq().get(posfaq).getReponses().get(posQR));
         }
@@ -48,35 +49,35 @@ public class CreateFAQActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = getIntent();
-                if(!question.getText().toString().isEmpty()&&!reponse.getText().toString().isEmpty()) {
-                    if(posQR==-1){
-                    ArrayList<Scenario> listscenario = getListScenario();
+                if (!question.getText().toString().isEmpty() && !reponse.getText().toString().isEmpty()) {
+                    if (posQR == -1) {
+                        ArrayList<Scenario> listscenario = getListScenario();
 
-                    int poscenario = i.getIntExtra("poscenario", -1);
-                    System.out.println("POS SCENARIO =" + poscenario);
-                    int posFaq = i.getIntExtra("posfaq", -1);
-                    System.out.println("POS FAQ =" + posFaq);
-                    Faq faq = listscenario.get(poscenario).getFaq().get(posFaq);
-                    ArrayList<String> questiontoadd = faq.getQuestions();
-                    questiontoadd.add(question.getText().toString());
-                    ArrayList<String> reponsetoadd = faq.getReponses();
-                    reponsetoadd.add(reponse.getText().toString());
-                    listscenario.get(poscenario).getFaq().remove(posFaq);
-                    listscenario.get(poscenario).getFaq().add(posFaq, faq);
-                    setListScenario(listscenario);
-                    Intent returntolist = new Intent(context, ListFAQActivity.class);
-                    returntolist.putExtra("poscenario", poscenario);
-                    returntolist.putExtra("posfaq", posFaq);
-                    startActivity(returntolist);
-                    }else{
+                        int poscenario = i.getIntExtra("poscenario", -1);
+                        System.out.println("POS SCENARIO =" + poscenario);
+                        int posFaq = i.getIntExtra("posfaq", -1);
+                        System.out.println("POS FAQ =" + posFaq);
+                        Faq faq = listscenario.get(poscenario).getFaq().get(posFaq);
+                        ArrayList<String> questiontoadd = faq.getQuestions();
+                        questiontoadd.add(question.getText().toString());
+                        ArrayList<String> reponsetoadd = faq.getReponses();
+                        reponsetoadd.add(reponse.getText().toString());
+                        listscenario.get(poscenario).getFaq().remove(posFaq);
+                        listscenario.get(poscenario).getFaq().add(posFaq, faq);
+                        setListScenario(listscenario);
+                        Intent returntolist = new Intent(context, ListFAQActivity.class);
+                        returntolist.putExtra("poscenario", poscenario);
+                        returntolist.putExtra("posfaq", posFaq);
+                        startActivity(returntolist);
+                    } else {
                         ArrayList<Scenario> listscenario = getListScenario();
 
                         int poscenario = i.getIntExtra("poscenario", -1);
                         int posFaq = i.getIntExtra("posfaq", -1);
                         listscenario.get(poscenario).getFaq().get(posFaq).getQuestions().remove(posQR);
                         listscenario.get(poscenario).getFaq().get(posFaq).getReponses().remove(posQR);
-                        listscenario.get(poscenario).getFaq().get(posFaq).getQuestions().add(posQR,question.getText().toString());
-                        listscenario.get(poscenario).getFaq().get(posFaq).getReponses().add(posQR,reponse.getText().toString());
+                        listscenario.get(poscenario).getFaq().get(posFaq).getQuestions().add(posQR, question.getText().toString());
+                        listscenario.get(poscenario).getFaq().get(posFaq).getReponses().add(posQR, reponse.getText().toString());
                         setListScenario(listscenario);
                         Intent returntolist = new Intent(context, ListFAQActivity.class);
                         returntolist.putExtra("poscenario", poscenario);
@@ -84,9 +85,8 @@ public class CreateFAQActivity extends Activity {
                         startActivity(returntolist);
 
 
-
                     }
-                }else{
+                } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(CreateFAQActivity.this);
                     builder.setTitle("ERREUR")
                             .setMessage("Vous devez entrer une question ET une réponse")
@@ -102,25 +102,28 @@ public class CreateFAQActivity extends Activity {
             }
 
 
-    });
+        });
     }
-    public ArrayList<Scenario> getListScenario(){
 
-        SharedPreferences sharedPreferences=getSharedPreferences("shared preferences",MODE_PRIVATE);
-        Gson gson= new Gson();
-        String json=sharedPreferences.getString("testlist",null);
-        Type type =new TypeToken<ArrayList<Scenario>>(){}.getType();
-        System.out.println("JSON"+json);
+    public ArrayList<Scenario> getListScenario() {
 
-        ArrayList<Scenario> listScenarAffichee= gson.fromJson(json, type);
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("testlist", null);
+        Type type = new TypeToken<ArrayList<Scenario>>() {
+        }.getType();
+        System.out.println("JSON" + json);
 
-        if ( listScenarAffichee==null){
-            listScenarAffichee= new ArrayList<>();
+        ArrayList<Scenario> listScenarAffichee = gson.fromJson(json, type);
+
+        if (listScenarAffichee == null) {
+            listScenarAffichee = new ArrayList<>();
         }
         return listScenarAffichee;
     }
-    public void setListScenario(ArrayList<Scenario> listScenToUpdate){
-        SharedPreferences sharedPreferences=getSharedPreferences("shared preferences",MODE_PRIVATE);
+
+    public void setListScenario(ArrayList<Scenario> listScenToUpdate) {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gsonpush = new Gson();
         String jsonpush = gsonpush.toJson(listScenToUpdate);

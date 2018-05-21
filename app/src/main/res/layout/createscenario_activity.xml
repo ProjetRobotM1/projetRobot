@@ -17,6 +17,24 @@
 
         android:longClickable="true"></ListView>
 
+    <ListView
+        android:id="@+id/listViewGroupePersonne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/line2"
+
+        android:longClickable="true"></ListView>
+
+    <ListView
+        android:id="@+id/listViewGroupeArticle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/addGroupePersonne"
+
+        android:longClickable="true"></ListView>
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_below="@+id/newScenario"
@@ -24,6 +42,19 @@
         android:id="@+id/textFAQ"
         android:text="FAQ"
         />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/addFAQ"
+        android:layout_height="wrap_content"
+        android:id="@+id/textGroupe"
+        android:text="GROUPE"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/textGroupe"
+        android:background="@android:color/darker_gray"
+        android:id="@+id/line2"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -38,7 +69,7 @@
         android:layout_height="wrap_content"
 
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/addFAQ"
+        android:layout_below="@+id/addGroupeArticle"
         android:text="@string/validerScenario" />
 
     <Button
@@ -51,6 +82,27 @@
         android:layout_below="@+id/listViewFAQ"
 
         android:text="Ajouter FAQ" />
+    <Button
+        android:id="@+id/addGroupePersonne"
+        style="@android:style/Widget.Button.Inset"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/listViewGroupePersonne"
+
+        android:text="Ajouter un groupe de personnes" />
+    <Button
+        android:id="@+id/addGroupeArticle"
+        style="@android:style/Widget.Button.Inset"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/listViewGroupeArticle"
+
+        android:text="Ajouter un groupe d'articles" />
+
 
 
 

@@ -20,16 +20,18 @@ import java.util.ArrayList;
  * Created by Hugo on 27/04/2018.
  */
 
-public class LauncherActivity  extends Activity {
+public class LauncherActivity extends Activity {
     private Button addInter, editInter, addScenario;
     private Button listeScenario;
     private Context context;
-    ListView listView ;
-    public  ArrayList<Scenario> getListScenario() {
+    ListView listView;
+
+    public ArrayList<Scenario> getListScenario() {
         return listScenario;
     }
 
-     ArrayList<Scenario> listScenario;
+    ArrayList<Scenario> listScenario;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +41,7 @@ public class LauncherActivity  extends Activity {
         context = this.getApplicationContext();
 
 
-
-        listeScenario=findViewById(R.id.listeScenarioBtn);
+        listeScenario = findViewById(R.id.listeScenarioBtn);
         listeScenario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,17 +50,24 @@ public class LauncherActivity  extends Activity {
             }
         });
 
-        addScenario=findViewById(R.id.addScenarioBtn);
+        addScenario = findViewById(R.id.addScenarioBtn);
         addScenario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, CreateScenarioActivity.class);
-                myIntent.putExtra("scenario","null");
+                myIntent.putExtra("scenario", "null");
+                myIntent.putExtra("activity",0);
                 startActivity(myIntent);
             }
         });
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        //  super.onBackPressed();
+        moveTaskToBack(true);
     }
 
 }

@@ -14,4 +14,22 @@ public class Article implements Serializable {
         this.nom = nom;
         this.description = description;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Article article = (Article) o;
+
+        if (nom != null ? !nom.equals(article.nom) : article.nom != null) return false;
+        return description != null ? description.equals(article.description) : article.description == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = nom != null ? nom.hashCode() : 0;
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        return result;
+    }
 }
