@@ -56,6 +56,7 @@ public class CreateFAQActivity extends Activity {
                         int poscenario = i.getIntExtra("poscenario", -1);
                         System.out.println("POS SCENARIO =" + poscenario);
                         int posFaq = i.getIntExtra("posfaq", -1);
+                        Scenario scenarioSauvegarde = (Scenario)i.getSerializableExtra("scenarioSauvegarde");
                         System.out.println("POS FAQ =" + posFaq);
                         Faq faq = listscenario.get(poscenario).getFaq().get(posFaq);
                         ArrayList<String> questiontoadd = faq.getQuestions();
@@ -65,23 +66,26 @@ public class CreateFAQActivity extends Activity {
                         listscenario.get(poscenario).getFaq().remove(posFaq);
                         listscenario.get(poscenario).getFaq().add(posFaq, faq);
                         setListScenario(listscenario);
-                        Intent returntolist = new Intent(context, ListFAQActivity.class);
+                        Intent returntolist = new Intent(context, ListQRActivity.class);
                         returntolist.putExtra("poscenario", poscenario);
                         returntolist.putExtra("posfaq", posFaq);
+                        returntolist.putExtra("scenarioSauvegarde",scenarioSauvegarde);
                         startActivity(returntolist);
                     } else {
                         ArrayList<Scenario> listscenario = getListScenario();
 
                         int poscenario = i.getIntExtra("poscenario", -1);
                         int posFaq = i.getIntExtra("posfaq", -1);
+                        Scenario scenarioSauvegarde = (Scenario)i.getSerializableExtra("scenarioSauvegarde");
                         listscenario.get(poscenario).getFaq().get(posFaq).getQuestions().remove(posQR);
                         listscenario.get(poscenario).getFaq().get(posFaq).getReponses().remove(posQR);
                         listscenario.get(poscenario).getFaq().get(posFaq).getQuestions().add(posQR, question.getText().toString());
                         listscenario.get(poscenario).getFaq().get(posFaq).getReponses().add(posQR, reponse.getText().toString());
                         setListScenario(listscenario);
-                        Intent returntolist = new Intent(context, ListFAQActivity.class);
+                        Intent returntolist = new Intent(context, ListQRActivity.class);
                         returntolist.putExtra("poscenario", poscenario);
                         returntolist.putExtra("posfaq", posFaq);
+                        returntolist.putExtra("scenarioSauvegarde",scenarioSauvegarde);
                         startActivity(returntolist);
 
 

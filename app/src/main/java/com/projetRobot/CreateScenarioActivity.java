@@ -19,11 +19,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.projetRobot.Scenario;
 
-import org.json.JSONArray;
-
-import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -81,16 +77,12 @@ public class CreateScenarioActivity extends Activity {
             listtoString.add("FAQ " + (j + 1));
         }
         if(scenariocree.getList_listArticle() !=null){
-            list_listArticle=scenariocree.getList_listArticle();
-            list_listArticle.add(new ConteneurListArticle("testart",new ArrayList<Article>()));
+           list_listArticle=scenariocree.getList_listArticle();
         }
-        list_listArticle.add(new ConteneurListArticle("testart",new ArrayList<Article>()));
         if(scenariocree.getList_listPersonne() !=null){
             list_listPersonne=scenariocree.getList_listPersonne();
-            list_listPersonne.add(new ConteneurListPersonne("testpers",new ArrayList<Personne>()));
-        }
-        list_listPersonne.add(new ConteneurListPersonne("testpers",new ArrayList<Personne>()));
 
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_list_item_1, android.R.id.text1, listtoString);
         ArrayAdapter<ConteneurListArticle> adapterlistArticle = new ArrayAdapter<ConteneurListArticle>(context,
@@ -109,9 +101,11 @@ public class CreateScenarioActivity extends Activity {
 
                     poscenario = listScenario.size() - 1;
                 }
-                Intent i = new Intent(context, ListFAQActivity.class);
+                Scenario scenarioSauvegarde = (Scenario)Intentgetpos.getSerializableExtra("scenarioSauvegarde");
+                Intent i = new Intent(context, ListQRActivity.class);
                 i.putExtra("poscenario", poscenario);
                 i.putExtra("posfaq", position);
+                i.putExtra("scenarioSauvegarde",scenarioSauvegarde);
                 startActivity(i);
 
 
@@ -120,7 +114,6 @@ public class CreateScenarioActivity extends Activity {
         registerForContextMenu(listViewFAQ);
         registerForContextMenu(listViewGroupePersonne);
         registerForContextMenu(listViewGroupeArticle);
-
 
         validerScenario.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,23 +162,58 @@ public class CreateScenarioActivity extends Activity {
         ajouterFAQ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(context, ListFAQActivity.class);
+                Intent myIntent = new Intent(context, ListQRActivity.class);
                 ArrayList<Scenario> listScenario = getListScenario();
                 Intent i = getIntent();
                 int poscenario = i.getIntExtra("poscenario", -1);
+                Scenario scenarioSauvegarde = (Scenario)i.getSerializableExtra("scenarioSauvegarde");
                 if (poscenario == -1) {
 
                     poscenario = listScenario.size() - 1;
                 }
 
                 myIntent.putExtra("pos", -1);
-
+                myIntent.putExtra("scenarioSauvegarde",scenarioSauvegarde);
                 Scenario scenariocree = new Scenario();
 
                 myIntent.putExtra("poscenario", poscenario);
 
                 scenariocree.setName("TEST");
                 System.out.println("intent scenario: " + scenariocree.toString());
+                startActivity(myIntent);
+            }
+        });
+        ajouterGroupeArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context, ListGrAActivity.class);
+                ArrayList<Scenario> listScenario = getListScenario();
+                Intent i = getIntent();
+                int poscenario = i.getIntExtra("poscenario", -1);
+                Scenario scenarioSauvegarde = (Scenario)i.getSerializableExtra("scenarioSauvegarde");
+                if (poscenario == -1) {
+
+                    poscenario = listScenario.size() - 1;
+                }
+                myIntent.putExtra("scenarioSauvegarde",scenarioSauvegarde);
+                myIntent.putExtra("poscenario", poscenario);
+                startActivity(myIntent);
+            }
+        });
+        ajouterGroupePersonne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context, ListGrPActivity.class);
+                ArrayList<Scenario> listScenario = getListScenario();
+                Intent i = getIntent();
+                int poscenario = i.getIntExtra("poscenario", -1);
+                Scenario scenarioSauvegarde = (Scenario)i.getSerializableExtra("scenarioSauvegarde");
+                if (poscenario == -1) {
+
+                    poscenario = listScenario.size() - 1;
+                }
+                myIntent.putExtra("scenarioSauvegarde",scenarioSauvegarde);
+                myIntent.putExtra("poscenario", poscenario);
                 startActivity(myIntent);
             }
         });
@@ -278,8 +306,8 @@ public class CreateScenarioActivity extends Activity {
 
             poscenario = listScenario.size() - 1;
         }
-
-        if (getActivity.getIntExtra("activity", -1) == 0) {
+        Scenario scenarioSauvegarde = (Scenario)getActivity.getSerializableExtra("scenarioSauvegarde");
+        if (getActivity.getIntExtra("activity", -1) == 0 ||scenarioSauvegarde==null) {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Annulation")
@@ -304,14 +332,14 @@ public class CreateScenarioActivity extends Activity {
                     .setNegativeButton("Non", null)
                     .show();
         }
-        Scenario scenarioSauvegarde = (Scenario)getActivity.getSerializableExtra("scenarioSauvegarde");
+
         System.out.println( "normalement 1 :"+getActivity.getIntExtra("activity", -1));
 
         setListScenario(listScenario);
-        if (getActivity.getIntExtra("activity", -1) == 1 ) {
+        if (getActivity.getIntExtra("activity", -1) == 1 || getActivity.getIntExtra("activity", -1)==-1 && scenarioSauvegarde!=null ) {
             System.out.println( "normalement true :" +scenarioSauvegarde.equals(listScenario.get(poscenario)));
             if(scenarioSauvegarde.equals(listScenario.get(poscenario))){
-                System.out.println( "JE SUIS RENTRE JE SUIS UNE MERDE");
+
 
             listScenario.remove(poscenario);
             scenarioSauvegarde = (Scenario)getActivity.getSerializableExtra("scenarioSauvegarde");

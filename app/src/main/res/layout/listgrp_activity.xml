@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:hint="Entrez un nom pour le groupe de Personnes"
+        android:id="@+id/editTextNameGrP" />
+    <ListView
+        android:id="@+id/listViewPersonne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editTextNameGrP"
+        android:longClickable="true"></ListView>
+    <Button
+        android:id="@+id/ajouterPersonnebtn"
+        style="@android:style/Widget.Button.Inset"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/listViewPersonne"
+        android:layout_marginTop="16dp"
+        android:text="Ajouter une Personne" />
+
+    <Button
+        android:id="@+id/validerListPersonnes"
+        style="@android:style/Widget.Button.Inset"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ajouterPersonnebtn"
+        android:text="Valider" />
+</RelativeLayout>

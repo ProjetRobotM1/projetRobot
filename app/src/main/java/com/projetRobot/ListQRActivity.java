@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * Created by Hugo on 17/05/2018.
  */
 
-public class ListFAQActivity extends Activity {
+public class ListQRActivity extends Activity {
 
     private Context context;
     private Button ajouterQR;
@@ -53,6 +53,8 @@ public class ListFAQActivity extends Activity {
         System.out.println("POS SCENARIO " + poscenario);
         int pos = i.getIntExtra("pos", -1);
         int posFAQ = i.getIntExtra("posfaq", -1);
+        Scenario scenarioSauvegarde = (Scenario)i.getSerializableExtra("scenarioSauvegarde");
+        System.out.println("scenarioSauvegarde : "+ scenarioSauvegarde);
         if (posFAQ >= 0) {
             currentFaq = scenario.getFaq().get(posFAQ);
         } else {
@@ -73,9 +75,10 @@ public class ListFAQActivity extends Activity {
             posFAQ = scenario.getFaq().size() - 1;
 
             currentFaq = scenario.getFaq().get(posFAQ);
-            Intent newintent = new Intent(this, ListFAQActivity.class);
+            Intent newintent = new Intent(this, ListQRActivity.class);
             newintent.putExtra("posfaq", posFAQ);
             newintent.putExtra("poscenario", poscenario);
+            newintent.putExtra("scenarioSauvegarde",scenarioSauvegarde);
             finish();
             startActivity(newintent);
         }
@@ -94,12 +97,12 @@ public class ListFAQActivity extends Activity {
                     int poscenario = getposIntent.getIntExtra("poscenario", -1);
                     int posfaq = getposIntent.getIntExtra("posfaq", -1);
                     int posQR = position;
-
+                    Scenario scenarioSauvegarde = (Scenario)getposIntent.getSerializableExtra("scenarioSauvegarde");
                     Intent i = new Intent(context, CreateFAQActivity.class);
                     i.putExtra("poscenario", poscenario);
                     i.putExtra("posfaq", posfaq);
                     i.putExtra("posQR", posQR);
-
+                    i.putExtra("scenarioSauvegarde",scenarioSauvegarde);
                     onDestroy();
                     startActivity(i);
                 }});
@@ -113,13 +116,14 @@ public class ListFAQActivity extends Activity {
 
                 Intent i = getIntent();
                 int poscenario = i.getIntExtra("poscenario", -1);
-
+                Scenario scenarioSauvegarde = (Scenario)i.getSerializableExtra("scenarioSauvegarde");
                 int posFAQ = i.getIntExtra("posfaq", -1);
                 System.out.println("posfaq" + posFAQ);
 
                 Intent myIntent = new Intent(context, CreateFAQActivity.class);
                 myIntent.putExtra("poscenario", poscenario);
                 myIntent.putExtra("posfaq", posFAQ);
+                myIntent.putExtra("scenarioSauvegarde",scenarioSauvegarde);
                 startActivity(myIntent);
             }
         });
@@ -158,6 +162,7 @@ public class ListFAQActivity extends Activity {
         Intent i = getIntent();
         int poscenario = i.getIntExtra("poscenario", -1);
         int posFAQ = i.getIntExtra("posfaq", -1);
+        Scenario scenarioSauvegarde = (Scenario)i.getSerializableExtra("scenarioSauvegarde");
         ArrayList<Scenario> listScenario = getListScenario();
         if (listScenario.get(poscenario).getFaq().get(posFAQ).getQuestions().isEmpty()) {
 
@@ -172,10 +177,12 @@ public class ListFAQActivity extends Activity {
                             Intent i = getIntent();
                             int poscenario = i.getIntExtra("poscenario", -1);
                             int posFAQ = i.getIntExtra("posfaq", -1);
+                            Scenario scenarioSauvegarde = (Scenario)i.getSerializableExtra("scenarioSauvegarde");
                             listScenario.get(poscenario).getFaq().remove(posFAQ);
                             setListScenario(listScenario);
                             Intent myIntent = new Intent(context, CreateScenarioActivity.class);
                             myIntent.putExtra("poscenario", poscenario);
+                            myIntent.putExtra("scenarioSauvegarde",scenarioSauvegarde);
                             startActivity(myIntent);
                         }
 
@@ -189,6 +196,7 @@ public class ListFAQActivity extends Activity {
 
             Intent myIntent = new Intent(context, CreateScenarioActivity.class);
             myIntent.putExtra("poscenario", poscenario);
+            myIntent.putExtra("scenarioSauvegarde",scenarioSauvegarde);
             startActivity(myIntent);
 
         }

@@ -71,8 +71,6 @@ public class ListScenarioActivity extends Activity {
             ListView lv = (ListView) v;
             AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
             Scenario scenario = (Scenario) lv.getItemAtPosition(acmi.position);
-            menu.setHeaderTitle("Choisissez l'action");
-            menu.add("Modifier");
             menu.add("Supprimer");
 
         }

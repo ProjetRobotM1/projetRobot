@@ -20,14 +20,16 @@ public class Personne implements Serializable {
 
     public String nom;
     public String prenom;
-    public int age;
+    public Integer age;
     public String profession;
     public String adresse;
     public String email;
     public String site;
 
+    public Personne() {
+    }
 
-    public Personne(String nom, String prenom, int age, String profession, String adresse, String email, String site) {
+    public Personne(String nom, String prenom, Integer age, String profession, String adresse, String email, String site) {
         this.nom = nom;
         this.prenom = prenom;
         this.age = age;
@@ -53,11 +55,11 @@ public class Personne implements Serializable {
         this.prenom = prenom;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -91,6 +93,11 @@ public class Personne implements Serializable {
 
     public void setSite(String site) {
         this.site = site;
+    }
+
+    @Override
+    public String toString() {
+        return  ""+prenom+" "+ nom ;
     }
 
     @Override
