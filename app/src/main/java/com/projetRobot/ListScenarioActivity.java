@@ -44,7 +44,7 @@ public class ListScenarioActivity extends Activity {
 
         listView = findViewById(R.id.listViewScenario);
 
-        ArrayList<Scenario> listScenarAffichee = getListScenario();
+        final ArrayList<Scenario> listScenarAffichee = getListScenario();
         ArrayAdapter<Scenario> adapter = new ArrayAdapter<Scenario>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, listScenarAffichee);
 
@@ -55,6 +55,8 @@ public class ListScenarioActivity extends Activity {
             public void onItemClick(AdapterView<?> arg0, View view, int position,long itemID) {
                 ArrayList<Scenario> listScenario = getListScenario();
                 Scenario scenarioSauvegarde = listScenario.get(position);
+                System.out.println("Taille liste "+listScenario.size());
+                System.out.println("POS "+position);
                 Intent i = new Intent(context, CreateScenarioActivity.class);
                 i.putExtra("poscenario",position);
                 i.putExtra("activity",1);

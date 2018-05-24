@@ -1,15 +1,21 @@
 package com.projetRobot;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -82,6 +88,23 @@ public class ListGrPActivity extends Activity {
 
 
             listViewPersonne.setAdapter(adapter);
+            listViewPersonne.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> arg0, View view, int position,long itemID) {
+                    Intent getposIntent = getIntent();
+                    ArrayList<Scenario> listScenario = getListScenario();
+                    int poscenario = getposIntent.getIntExtra("poscenario", -1);
+                    int posGrP = getposIntent.getIntExtra("posGrP", -1);
+                    int posPers = position;
+                    Scenario scenarioSauvegarde = (Scenario)getposIntent.getSerializableExtra("scenarioSauvegarde");
+                    Intent i = new Intent(context, CreateGrPActivity.class);
+                    i.putExtra("poscenario", poscenario);
+                    i.putExtra("posGrP", posGrP);
+                    i.putExtra("posPers", posPers);
+                    i.putExtra("scenarioSauvegarde",scenarioSauvegarde);
+                    onDestroy();
+                    startActivity(i);
+                }});
+            registerForContextMenu(listViewPersonne);
         }
         ajouterPersonne.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +123,54 @@ public class ListGrPActivity extends Activity {
                 startActivity(myIntent);
             }
         });
+        validerListePers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Scenario> listScenToUpdate = getListScenario();
+                Intent i = getIntent();
+                Scenario scenariocree = new Scenario();
+                int poscenario = i.getIntExtra("poscenario", -1);
+                int posGrP = i.getIntExtra("posGrP", -1);
+                if (poscenario == -1) {
+                    ArrayList<Scenario> listScenario = getListScenario();
+                    poscenario = listScenario.size() - 1;
+                    scenariocree = listScenario.get(poscenario);
+                } else {
+                    ArrayList<Scenario> listScenario = getListScenario();
+                    scenariocree = listScenario.get(poscenario);
 
+                }
+
+                if (!personneName.getText().toString().isEmpty()) {
+
+                    scenariocree.getList_listPersonne().get(posGrP).setName(personneName.getText().toString());
+                    listScenToUpdate.remove(poscenario);
+                    listScenToUpdate.add(poscenario, scenariocree);
+                    setListScenario(listScenToUpdate);
+                    Toast.makeText(getApplicationContext(), "Liste enregistrée", Toast.LENGTH_LONG).show();
+                    Intent returntocreateScen = new Intent(context,CreateScenarioActivity.class);
+                    Scenario scenarioSauvegarde = (Scenario)i.getSerializableExtra("scenarioSauvegarde");
+                    returntocreateScen.putExtra("scenarioSauvegarde",scenarioSauvegarde);
+                    returntocreateScen.putExtra("poscenario", poscenario);
+                    startActivity(returntocreateScen);
+
+                } else {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ListGrPActivity.this);
+                    builder.setTitle("ERREUR")
+                            .setMessage("Vous devez entrer un nom pour votre liste")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    onRestart();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+            }
+
+        });
 
     }
     public ArrayList<Scenario> getListScenario() {
@@ -128,5 +198,64 @@ public class ListGrPActivity extends Activity {
         editor.putString("testlist", jsonpush);
         editor.apply();
 
+    }
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        if (v.getId() == R.id.listViewPersonne) {
+            ListView lv = (ListView) v;
+            AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
+
+
+            menu.add("Supprimer");
+
+        }
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getTitle() == "Supprimer") {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            Intent getposIntent = getIntent();
+            ArrayList<Scenario> listScenario = getListScenario();
+            int poscenario = getposIntent.getIntExtra("poscenario", -1);
+            int posGrP = getposIntent.getIntExtra("posGrP", -1);
+            int posPers = info.position;
+            listScenario.get(poscenario).getList_listPersonne().get(posGrP).getListPersonne().remove(posPers);
+            setListScenario(listScenario);
+            Toast.makeText(getApplicationContext(), "Personne supprimée avec succès", Toast.LENGTH_LONG).show();
+            recreate();
+        } else {
+            return false;
+        }
+        return true;
+    }
+    public void onBackPressed() {
+        Intent i = getIntent();
+        int poscenario = i.getIntExtra("poscenario", -1);
+        int posGrP = i.getIntExtra("posGrP", -1);
+        Scenario scenarioSauvegarde = (Scenario)i.getSerializableExtra("scenarioSauvegarde");
+        ArrayList<Scenario> listScenario = getListScenario();
+        if(!personneName.getText().toString().equals(listScenario.get(poscenario).getList_listPersonne().get(posGrP).getName())){
+            AlertDialog.Builder builder = new AlertDialog.Builder(ListGrPActivity.this);
+            builder.setTitle("Attention")
+                    .setMessage("Le nom a été changé veuillez valider le changement")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            onRestart();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+
+        }else{
+            Intent returntoCreateScenar=new Intent(context,CreateScenarioActivity.class);
+            returntoCreateScenar.putExtra("poscenario",poscenario);
+            returntoCreateScenar.putExtra("scenarioSauvegarde",scenarioSauvegarde);
+            startActivity(returntoCreateScenar);
+
+        }
     }
 }

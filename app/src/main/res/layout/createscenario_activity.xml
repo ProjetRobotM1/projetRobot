@@ -1,126 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <EditText
-    android:layout_width="fill_parent"
-    android:layout_height="50dp"
-    android:hint="Entrez un nom"
-    android:id="@+id/newScenario" />
-    <ListView
-        android:id="@+id/listViewFAQ"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/line1"
-
-        android:longClickable="true"></ListView>
-
-    <ListView
-        android:id="@+id/listViewGroupePersonne"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/line2"
-
-        android:longClickable="true"></ListView>
-
-    <ListView
-        android:id="@+id/listViewGroupeArticle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/line3"
-
-        android:longClickable="true"></ListView>
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_below="@+id/newScenario"
-        android:layout_height="wrap_content"
-        android:id="@+id/textFAQ"
-        android:text="FAQ"
-        />
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_below="@+id/addFAQ"
-        android:layout_height="wrap_content"
-        android:id="@+id/textGroupe"
-        android:text="GROUPE"
-        />
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_below="@+id/addGroupePersonne"
-        android:layout_height="wrap_content"
-        android:id="@+id/textArticle"
-        android:text="ARTICLE"
-        />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/textArticle"
-        android:background="@android:color/darker_gray"
-        android:id="@+id/line3"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/textGroupe"
-        android:background="@android:color/darker_gray"
-        android:id="@+id/line2"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/textFAQ"
-        android:background="@android:color/darker_gray"
-        android:id="@+id/line1"/>
-
-    <Button
-        android:id="@+id/validerScenario"
-        style="@android:style/Widget.Button.Inset"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/addGroupeArticle"
-        android:text="@string/validerScenario" />
-
-    <Button
-        android:id="@+id/addFAQ"
-        style="@android:style/Widget.Button.Inset"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/listViewFAQ"
-
-        android:text="Ajouter FAQ" />
-    <Button
-        android:id="@+id/addGroupePersonne"
-        style="@android:style/Widget.Button.Inset"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/listViewGroupePersonne"
-
-        android:text="Ajouter un groupe de personnes" />
-    <Button
-        android:id="@+id/addGroupeArticle"
-        style="@android:style/Widget.Button.Inset"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/listViewGroupeArticle"
-
-        android:text="Ajouter un groupe d'articles" />
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:scrollbarSize="4dp"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:fadeScrollbars="false"
+    android:scrollbarStyle="insideOverlay"
+    android:scrollbarThumbVertical="@drawable/scrollbar" >
 
 
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/newScenario"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:hint="Entrez un nom" />
+
+        <ListView
+            android:id="@+id/listViewFAQ"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/line1"
+
+            android:longClickable="true"
+            android:scrollbars="vertical"></ListView>
+
+        <ListView
+            android:id="@+id/listViewGroupePersonne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/line2"
+
+            android:longClickable="true"
+            android:scrollbars="vertical"></ListView>
+
+        <ListView
+            android:id="@+id/listViewGroupeArticle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/line3"
+
+            android:longClickable="true"
+            android:scrollbars="vertical"></ListView>
+
+        <TextView
+            android:id="@+id/textFAQ"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/newScenario"
+            android:text="FAQ" />
+
+        <TextView
+            android:id="@+id/textGroupe"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addFAQ"
+            android:text="GROUPE" />
+
+        <TextView
+            android:id="@+id/textArticle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addGroupePersonne"
+            android:text="ARTICLE" />
+
+        <View
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/textArticle"
+            android:background="@android:color/darker_gray" />
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/textGroupe"
+            android:background="@android:color/darker_gray" />
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/textFAQ"
+            android:background="@android:color/darker_gray" />
+
+        <Button
+            android:id="@+id/validerScenario"
+            style="@android:style/Widget.Button.Inset"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/addGroupeArticle"
+            android:text="@string/validerScenario" />
+
+        <Button
+            android:id="@+id/addFAQ"
+            style="@android:style/Widget.Button.Inset"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/listViewFAQ"
+
+            android:text="Ajouter FAQ" />
+
+        <Button
+            android:id="@+id/addGroupePersonne"
+            style="@android:style/Widget.Button.Inset"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/listViewGroupePersonne"
+
+            android:text="Ajouter un groupe de personnes" />
+
+        <Button
+            android:id="@+id/addGroupeArticle"
+            style="@android:style/Widget.Button.Inset"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/listViewGroupeArticle"
+
+            android:text="Ajouter un groupe d'articles" />
 
 
-
-
-
-
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

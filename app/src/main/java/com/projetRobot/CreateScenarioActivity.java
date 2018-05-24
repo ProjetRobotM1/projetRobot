@@ -9,11 +9,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -90,8 +93,39 @@ public class CreateScenarioActivity extends Activity {
         ArrayAdapter<ConteneurListPersonne> adapterlistPersonne = new ArrayAdapter<ConteneurListPersonne>(context,
                 android.R.layout.simple_list_item_1,android.R.id.text1,list_listPersonne);
         listViewFAQ.setAdapter(adapter);
+        listViewFAQ.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+        setListViewHeightBasedOnChildren(listViewFAQ);
+
         listViewGroupePersonne.setAdapter(adapterlistPersonne);
+        listViewGroupePersonne.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+        setListViewHeightBasedOnChildren(listViewGroupePersonne);
         listViewGroupeArticle.setAdapter(adapterlistArticle);
+        listViewGroupeArticle.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+        setListViewHeightBasedOnChildren(listViewGroupeArticle);
         listViewFAQ.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View view, int position,long itemID) {
                 ArrayList<Scenario> listScenario = getListScenario();
@@ -105,6 +139,44 @@ public class CreateScenarioActivity extends Activity {
                 Intent i = new Intent(context, ListQRActivity.class);
                 i.putExtra("poscenario", poscenario);
                 i.putExtra("posfaq", position);
+                i.putExtra("scenarioSauvegarde",scenarioSauvegarde);
+                startActivity(i);
+
+
+            }
+        });
+        listViewGroupePersonne.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> arg0, View view, int position,long itemID) {
+                ArrayList<Scenario> listScenario = getListScenario();
+                Intent Intentgetpos = getIntent();
+                int poscenario = Intentgetpos.getIntExtra("poscenario", -1);
+                if (poscenario == -1) {
+
+                    poscenario = listScenario.size() - 1;
+                }
+                Scenario scenarioSauvegarde = (Scenario)Intentgetpos.getSerializableExtra("scenarioSauvegarde");
+                Intent i = new Intent(context, ListGrPActivity.class);
+                i.putExtra("poscenario", poscenario);
+                i.putExtra("posGrP", position);
+                i.putExtra("scenarioSauvegarde",scenarioSauvegarde);
+                startActivity(i);
+
+
+            }
+        });
+        listViewGroupeArticle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> arg0, View view, int position,long itemID) {
+                ArrayList<Scenario> listScenario = getListScenario();
+                Intent Intentgetpos = getIntent();
+                int poscenario = Intentgetpos.getIntExtra("poscenario", -1);
+                if (poscenario == -1) {
+
+                    poscenario = listScenario.size() - 1;
+                }
+                Scenario scenarioSauvegarde = (Scenario)Intentgetpos.getSerializableExtra("scenarioSauvegarde");
+                Intent i = new Intent(context, ListGrAActivity.class);
+                i.putExtra("poscenario", poscenario);
+                i.putExtra("posGrA", position);
                 i.putExtra("scenarioSauvegarde",scenarioSauvegarde);
                 startActivity(i);
 
@@ -263,7 +335,39 @@ public class CreateScenarioActivity extends Activity {
 
             Toast.makeText(getApplicationContext(), "FAQ supprimé avec succès", Toast.LENGTH_LONG).show();
             recreate();
-        } else {
+        }
+        if (item.getTitle() == "Supprimer groupe personne") {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            ArrayList<Scenario> listScenario = getListScenario();
+            Intent Intentgetpos = getIntent();
+            int poscenario = Intentgetpos.getIntExtra("poscenario", -1);
+            if (poscenario == -1) {
+
+                poscenario = listScenario.size() - 1;
+            }
+            listScenario.get(poscenario).getList_listPersonne().remove(info.position);
+            setListScenario(listScenario);
+
+
+            Toast.makeText(getApplicationContext(), "Groupe supprimé avec succès", Toast.LENGTH_LONG).show();
+            recreate();
+        }
+        if (item.getTitle() == "Supprimer groupe article") {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            ArrayList<Scenario> listScenario = getListScenario();
+            Intent Intentgetpos = getIntent();
+            int poscenario = Intentgetpos.getIntExtra("poscenario", -1);
+            if (poscenario == -1) {
+
+                poscenario = listScenario.size() - 1;
+            }
+            listScenario.get(poscenario).getList_listArticle().remove(info.position);
+            setListScenario(listScenario);
+
+
+            Toast.makeText(getApplicationContext(), "Groupe supprimé avec succès", Toast.LENGTH_LONG).show();
+            recreate();
+        }else {
             return false;
         }
         return true;
@@ -379,7 +483,26 @@ public class CreateScenarioActivity extends Activity {
             }
     }
     }
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
 
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+    }
 
 }
 

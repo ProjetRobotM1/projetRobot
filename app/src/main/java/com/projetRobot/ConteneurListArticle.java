@@ -1,12 +1,13 @@
 package com.projetRobot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Hugo on 21/05/2018.
  */
 
-public class ConteneurListArticle {
+public class ConteneurListArticle implements Serializable {
     private String name;
     private ArrayList<Article> listArticle;
 
