@@ -1,6 +1,7 @@
 <application>
   <component name="FileTypeManager" version="17">
     <extensionMap>
+      <mapping pattern="displayscenario_activity" type="PLAIN_TEXT" />
       <mapping pattern="createpers_activity" type="XML" />
       <mapping pattern="createfaq_activity" type="XML" />
     </extensionMap>
