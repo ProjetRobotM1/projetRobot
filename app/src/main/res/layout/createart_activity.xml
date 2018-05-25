@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:hint="Nom"
+        android:inputType="textCapSentences"
+        android:id="@+id/NomArticle" />
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:hint="Description"
+        android:inputType="textCapSentences"
+        android:layout_below="@+id/NomArticle"
+        android:id="@+id/Description" />
+
+    <Button
+        android:id="@+id/validerArticle"
+        style="@android:style/Widget.Button.Inset"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/Description"
+        android:text="Valider" />
+</RelativeLayout>

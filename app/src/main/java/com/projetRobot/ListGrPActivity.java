@@ -237,7 +237,7 @@ public class ListGrPActivity extends Activity {
         int posGrP = i.getIntExtra("posGrP", -1);
         Scenario scenarioSauvegarde = (Scenario)i.getSerializableExtra("scenarioSauvegarde");
         ArrayList<Scenario> listScenario = getListScenario();
-        if(!personneName.getText().toString().equals(listScenario.get(poscenario).getList_listPersonne().get(posGrP).getName())){
+        if(!personneName.getText().toString().equals(listScenario.get(poscenario).getList_listPersonne().get(posGrP).getName()) &&!personneName.getText().toString().isEmpty()){
             AlertDialog.Builder builder = new AlertDialog.Builder(ListGrPActivity.this);
             builder.setTitle("Attention")
                     .setMessage("Le nom a été changé veuillez valider le changement")
@@ -252,6 +252,11 @@ public class ListGrPActivity extends Activity {
 
         }else{
             Intent returntoCreateScenar=new Intent(context,CreateScenarioActivity.class);
+
+            if(listScenario.get(poscenario).getList_listPersonne().get(posGrP).getName()==""||listScenario.get(poscenario).getList_listPersonne().get(posGrP).getName()==null){
+                listScenario.get(poscenario).getList_listPersonne().remove(posGrP);
+                setListScenario(listScenario);
+            }
             returntoCreateScenar.putExtra("poscenario",poscenario);
             returntoCreateScenar.putExtra("scenarioSauvegarde",scenarioSauvegarde);
             startActivity(returntoCreateScenar);

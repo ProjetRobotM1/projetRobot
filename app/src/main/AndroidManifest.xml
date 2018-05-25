@@ -49,6 +49,10 @@
         <activity android:name=".CreateGrPActivity"
             android:label="@string/app_name"
             android:parentActivityName=".ListGrPActivity"></activity>
+        <activity android:name=".DisplayScenarioActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".ListScenarioActivity"></activity>
+
 
 
 

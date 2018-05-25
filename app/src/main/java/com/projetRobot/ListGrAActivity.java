@@ -96,7 +96,7 @@ public class ListGrAActivity extends Activity {
                     int posGrA = getposIntent.getIntExtra("posGrA", -1);
                     int posArt = position;
                     Scenario scenarioSauvegarde = (Scenario)getposIntent.getSerializableExtra("scenarioSauvegarde");
-                    Intent i = new Intent(context, CreateGrPActivity.class);
+                    Intent i = new Intent(context, CreateGrAActivity.class);
                     i.putExtra("poscenario", poscenario);
                     i.putExtra("posGrA", posGrA);
                     i.putExtra("posArt", posArt);
@@ -222,7 +222,7 @@ public class ListGrAActivity extends Activity {
             int poscenario = getposIntent.getIntExtra("poscenario", -1);
             int posGrA = getposIntent.getIntExtra("posGrA", -1);
             int posArt = info.position;
-            listScenario.get(poscenario).getList_listArticle().get(posArt).getListArticle().remove(posArt);
+            listScenario.get(poscenario).getList_listArticle().get(posGrA).getListArticle().remove(posArt);
             setListScenario(listScenario);
             Toast.makeText(getApplicationContext(), "Article supprimé avec succès", Toast.LENGTH_LONG).show();
             recreate();
@@ -237,7 +237,7 @@ public class ListGrAActivity extends Activity {
         int posGrA = i.getIntExtra("posGrA", -1);
         Scenario scenarioSauvegarde = (Scenario)i.getSerializableExtra("scenarioSauvegarde");
         ArrayList<Scenario> listScenario = getListScenario();
-        if(!articleName.getText().toString().equals(listScenario.get(poscenario).getList_listArticle().get(posGrA).getName())){
+        if(!articleName.getText().toString().equals(listScenario.get(poscenario).getList_listArticle().get(posGrA).getName()) && !articleName.getText().toString().isEmpty()){
             AlertDialog.Builder builder = new AlertDialog.Builder(ListGrAActivity.this);
             builder.setTitle("Attention")
                     .setMessage("Le nom a été changé veuillez valider le changement")
@@ -252,6 +252,10 @@ public class ListGrAActivity extends Activity {
 
         }else{
             Intent returntoCreateScenar=new Intent(context,CreateScenarioActivity.class);
+            if(listScenario.get(poscenario).getList_listArticle().get(posGrA).getName()==""||listScenario.get(poscenario).getList_listArticle().get(posGrA).getName()==null){
+                listScenario.get(poscenario).getList_listArticle().remove(posGrA);
+                setListScenario(listScenario);
+            }
             returntoCreateScenar.putExtra("poscenario",poscenario);
             returntoCreateScenar.putExtra("scenarioSauvegarde",scenarioSauvegarde);
             startActivity(returntoCreateScenar);

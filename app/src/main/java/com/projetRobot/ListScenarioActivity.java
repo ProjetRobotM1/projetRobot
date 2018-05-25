@@ -53,15 +53,8 @@ public class ListScenarioActivity extends Activity {
         registerForContextMenu(listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View view, int position,long itemID) {
-                ArrayList<Scenario> listScenario = getListScenario();
-                Scenario scenarioSauvegarde = listScenario.get(position);
-                System.out.println("Taille liste "+listScenario.size());
-                System.out.println("POS "+position);
-                Intent i = new Intent(context, CreateScenarioActivity.class);
+                Intent i = new Intent(context, DisplayScenarioActivity.class);
                 i.putExtra("poscenario",position);
-                i.putExtra("activity",1);
-                i.putExtra("scenarioSauvegarde",scenarioSauvegarde);
-                onDestroy();
                 startActivity(i);
             }});
     }
@@ -73,7 +66,9 @@ public class ListScenarioActivity extends Activity {
             ListView lv = (ListView) v;
             AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
             Scenario scenario = (Scenario) lv.getItemAtPosition(acmi.position);
+            menu.add("Modifier");
             menu.add("Supprimer");
+
 
         }
 
@@ -84,8 +79,12 @@ public class ListScenarioActivity extends Activity {
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getTitle() == "Modifier") {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            Intent i = new Intent(this, CreateScenarioActivity.class);
-            i.putExtra("poscenario", info.position);
+            ArrayList<Scenario> listScenario = getListScenario();
+            Scenario scenarioSauvegarde = listScenario.get(info.position);
+            Intent i = new Intent(context, CreateScenarioActivity.class);
+            i.putExtra("poscenario",info.position);
+            i.putExtra("activity",1);
+            i.putExtra("scenarioSauvegarde",scenarioSauvegarde);
             onDestroy();
             startActivity(i);
         } else if (item.getTitle() == "Supprimer") {
