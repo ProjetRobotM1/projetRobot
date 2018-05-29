@@ -52,6 +52,16 @@
         <activity android:name=".DisplayScenarioActivity"
             android:label="@string/app_name"
             android:parentActivityName=".ListScenarioActivity"></activity>
+        <activity android:name=".DisplayFAQActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".DisplayScenarioActivity"></activity>
+        <activity android:name=".DisplayListePersonneActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".DisplayScenarioActivity"></activity>
+        <activity android:name=".DisplayListeArticleActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".DisplayScenarioActivity"></activity>
+
 
 
 

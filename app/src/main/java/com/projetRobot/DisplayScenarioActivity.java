@@ -123,7 +123,7 @@ public class DisplayScenarioActivity extends Activity {
                     poscenario = listScenario.size() - 1;
                 }
                 Scenario scenarioSauvegarde = (Scenario)Intentgetpos.getSerializableExtra("scenarioSauvegarde");
-                Intent i = new Intent(context, ListQRActivity.class);
+                Intent i = new Intent(context, DisplayFAQActivity.class);
                 i.putExtra("poscenario", poscenario);
                 i.putExtra("posfaq", position);
                 i.putExtra("scenarioSauvegarde",scenarioSauvegarde);
@@ -142,7 +142,7 @@ public class DisplayScenarioActivity extends Activity {
                     poscenario = listScenario.size() - 1;
                 }
                 Scenario scenarioSauvegarde = (Scenario)Intentgetpos.getSerializableExtra("scenarioSauvegarde");
-                Intent i = new Intent(context, ListGrPActivity.class);
+                Intent i = new Intent(context, DisplayListePersonneActivity.class);
                 i.putExtra("poscenario", poscenario);
                 i.putExtra("posGrP", position);
                 i.putExtra("scenarioSauvegarde",scenarioSauvegarde);
@@ -161,7 +161,7 @@ public class DisplayScenarioActivity extends Activity {
                     poscenario = listScenario.size() - 1;
                 }
                 Scenario scenarioSauvegarde = (Scenario)Intentgetpos.getSerializableExtra("scenarioSauvegarde");
-                Intent i = new Intent(context, ListGrAActivity.class);
+                Intent i = new Intent(context, DisplayListeArticleActivity.class);
                 i.putExtra("poscenario", poscenario);
                 i.putExtra("posGrA", position);
                 i.putExtra("scenarioSauvegarde",scenarioSauvegarde);
@@ -170,9 +170,7 @@ public class DisplayScenarioActivity extends Activity {
 
             }
         });
-        registerForContextMenu(listViewFAQ);
-        registerForContextMenu(listViewGroupePersonne);
-        registerForContextMenu(listViewGroupeArticle);
+
 
 
     }

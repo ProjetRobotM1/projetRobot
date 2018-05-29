@@ -52,7 +52,7 @@ public class CreateGrPActivity extends Activity {
             prenom.setText(listScenario.get(poscenario).getList_listPersonne().get(posGrP).getListPersonne().get(posPers).getPrenom());
 
             if(listScenario.get(poscenario).getList_listPersonne().get(posGrP).getListPersonne().get(posPers).getAge()!=null){
-                age.setText(listScenario.get(poscenario).getList_listPersonne().get(posGrP).getListPersonne().get(posPers).getAge());
+                age.setText(listScenario.get(poscenario).getList_listPersonne().get(posGrP).getListPersonne().get(posPers).getAge().toString());
             }
             if(listScenario.get(poscenario).getList_listPersonne().get(posGrP).getListPersonne().get(posPers).getProfession()!=null){
                 profession.setText(listScenario.get(poscenario).getList_listPersonne().get(posGrP).getListPersonne().get(posPers).getProfession());
