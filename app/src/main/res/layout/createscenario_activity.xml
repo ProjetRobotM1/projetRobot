@@ -20,6 +20,30 @@
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:hint="Entrez un nom" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/newScenario"
+            android:id="@+id/TextViewPT"
+            android:text="Presentation Texte"
+            />
+        <ListView
+            android:id="@+id/textPT"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line0"
+            android:clickable="true"
+            android:longClickable="true"/>
+        <Button
+            android:id="@+id/addPT"
+            style="@android:style/Widget.Button.Inset"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textPT"
+            android:text="Ajouter Presentation Texte" />
+
 
         <ListView
             android:id="@+id/listViewFAQ"
@@ -55,7 +79,7 @@
             android:id="@+id/textFAQ"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/newScenario"
+            android:layout_below="@+id/addPT"
             android:text="FAQ" />
 
         <TextView
@@ -91,6 +115,12 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/textFAQ"
+            android:background="@android:color/darker_gray" />
+        <View
+            android:id="@+id/line0"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/TextViewPT"
             android:background="@android:color/darker_gray" />
 
         <Button

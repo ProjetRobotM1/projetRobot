@@ -11,7 +11,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.TextView;
-
+import android.speech.tts.TextToSpeech;
+import java.util.Locale;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -23,7 +24,7 @@ import java.util.ArrayList;
  */
 
 public class DisplayFAQActivity extends Activity{
-
+    TextToSpeech t1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +35,14 @@ public class DisplayFAQActivity extends Activity{
         ArrayList<Scenario> listScenar = getListScenario();
         Scenario scenario = listScenar.get(poscenario);
         Faq faq = scenario.getFaq().get(posFAQ);
+        t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    t1.setLanguage(Locale.FRANCE);
+                }
+            }
+        });
         final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.LinearLayoutDisplayFAQ);
         final ArrayList<TextView> listTextViewRep=new ArrayList<>();
         ArrayList<TextView> listTextViewQuest=new ArrayList<>();
@@ -77,6 +86,8 @@ public class DisplayFAQActivity extends Activity{
                         if(listTextViewRep.get(finalJ).getVisibility()==(View.GONE)) {
 
                             listTextViewRep.get(finalJ).setVisibility(View.VISIBLE);
+                            String toSpeak=listTextViewRep.get(finalJ).getText().toString();
+                            t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
 
                         }else {listTextViewRep.get(finalJ).setVisibility(View.GONE);
 

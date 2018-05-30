@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -34,8 +35,9 @@ import java.util.ArrayList;
 public class CreateScenarioActivity extends Activity {
     private Context context;
     private EditText scenario;
-    private Button validerScenario, ajouterFAQ,ajouterGroupePersonne,ajouterGroupeArticle;
-    private ListView listViewFAQ,listViewGroupePersonne,listViewGroupeArticle;
+
+    private Button validerScenario, ajouterFAQ,ajouterGroupePersonne,ajouterGroupeArticle,ajouterPT;
+    private ListView listViewFAQ,listViewGroupePersonne,listViewGroupeArticle,presTexte;
 
     @Override
 
@@ -56,24 +58,32 @@ public class CreateScenarioActivity extends Activity {
 
 
         scenario = (EditText) findViewById(R.id.newScenario);
+
         if (poscenario != -1) {
             ArrayList<Scenario> listScenario = getListScenario();
             scenario.setText(listScenario.get(poscenario).getName());
         }
+
         context = this.getApplicationContext();
         listViewFAQ = findViewById(R.id.listViewFAQ);
+        presTexte=findViewById(R.id.textPT);
         validerScenario = findViewById(R.id.validerScenario);
         ajouterFAQ = findViewById(R.id.addFAQ);
+        ajouterPT=findViewById(R.id.addPT);
         ajouterGroupeArticle=findViewById((R.id.addGroupeArticle));
         ajouterGroupePersonne=findViewById((R.id.addGroupePersonne));
         listViewGroupePersonne=findViewById((R.id.listViewGroupePersonne));
         listViewGroupeArticle=findViewById((R.id.listViewGroupeArticle));
         ArrayList<Faq> listFAQ = new ArrayList<>();
+        ArrayList<String>listPT=new ArrayList<>();
         ArrayList<ConteneurListArticle> list_listArticle = new ArrayList<>();
         ArrayList<ConteneurListPersonne> list_listPersonne = new ArrayList<>();
 
         if (scenariocree.getFaq() != null) {
             listFAQ = scenariocree.getFaq();
+        }
+        if (scenariocree.getPresTexte()!=null&&!scenariocree.getPresTexte().equals("")) {
+            listPT.add("PRESENTATION TEXTE");
         }
         ArrayList<String> listtoString = new ArrayList<>();
         for (int j = 0; j < listFAQ.size(); j++) {
@@ -88,6 +98,8 @@ public class CreateScenarioActivity extends Activity {
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_list_item_1, android.R.id.text1, listtoString);
+        ArrayAdapter<String> adapterPT = new ArrayAdapter<String>(context,
+                android.R.layout.simple_list_item_1, android.R.id.text1, listPT);
         ArrayAdapter<ConteneurListArticle> adapterlistArticle = new ArrayAdapter<ConteneurListArticle>(context,
                 android.R.layout.simple_list_item_1,android.R.id.text1,list_listArticle);
         ArrayAdapter<ConteneurListPersonne> adapterlistPersonne = new ArrayAdapter<ConteneurListPersonne>(context,
@@ -103,7 +115,17 @@ public class CreateScenarioActivity extends Activity {
             }
         });
         setListViewHeightBasedOnChildren(listViewFAQ);
-
+        presTexte.setAdapter(adapterPT);
+        presTexte.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+        setListViewHeightBasedOnChildren(presTexte);
         listViewGroupePersonne.setAdapter(adapterlistPersonne);
         listViewGroupePersonne.setOnTouchListener(new View.OnTouchListener() {
             // Setting on Touch Listener for handling the touch inside ScrollView
@@ -126,6 +148,7 @@ public class CreateScenarioActivity extends Activity {
             }
         });
         setListViewHeightBasedOnChildren(listViewGroupeArticle);
+
         listViewFAQ.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View view, int position,long itemID) {
                 ArrayList<Scenario> listScenario = getListScenario();
@@ -139,6 +162,24 @@ public class CreateScenarioActivity extends Activity {
                 Intent i = new Intent(context, ListQRActivity.class);
                 i.putExtra("poscenario", poscenario);
                 i.putExtra("posfaq", position);
+                i.putExtra("scenarioSauvegarde",scenarioSauvegarde);
+                startActivity(i);
+
+
+            }
+        });
+        presTexte.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> arg0, View view, int position,long itemID) {
+                ArrayList<Scenario> listScenario = getListScenario();
+                Intent Intentgetpos = getIntent();
+                int poscenario = Intentgetpos.getIntExtra("poscenario", -1);
+                if (poscenario == -1) {
+
+                    poscenario = listScenario.size() - 1;
+                }
+                Scenario scenarioSauvegarde = (Scenario)Intentgetpos.getSerializableExtra("scenarioSauvegarde");
+                Intent i = new Intent(context, CreatePTexteActivity.class);
+                i.putExtra("poscenario", poscenario);
                 i.putExtra("scenarioSauvegarde",scenarioSauvegarde);
                 startActivity(i);
 
@@ -186,6 +227,8 @@ public class CreateScenarioActivity extends Activity {
         registerForContextMenu(listViewFAQ);
         registerForContextMenu(listViewGroupePersonne);
         registerForContextMenu(listViewGroupeArticle);
+        registerForContextMenu(presTexte);
+
 
         validerScenario.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,6 +298,28 @@ public class CreateScenarioActivity extends Activity {
                 startActivity(myIntent);
             }
         });
+        if (scenariocree.getPresTexte()!=null){
+
+        if(!scenariocree.getPresTexte().equals("")){
+            ajouterPT.setVisibility(View.GONE);
+        }}
+        ajouterPT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context, CreatePTexteActivity.class);
+                ArrayList<Scenario> listScenario = getListScenario();
+                Intent i = getIntent();
+                int poscenario = i.getIntExtra("poscenario", -1);
+                Scenario scenarioSauvegarde = (Scenario)i.getSerializableExtra("scenarioSauvegarde");
+                if (poscenario == -1) {
+
+                    poscenario = listScenario.size() - 1;
+                }
+                myIntent.putExtra("scenarioSauvegarde",scenarioSauvegarde);
+                myIntent.putExtra("poscenario", poscenario);
+                startActivity(myIntent);
+            }
+        });
         ajouterGroupeArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -313,6 +378,12 @@ public class CreateScenarioActivity extends Activity {
             menu.add("Supprimer groupe personne");
 
         }
+        if (v.getId() == R.id.textPT) {
+            ListView lv = (ListView) v;
+            AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            menu.add("Supprimer Presentation Texte");
+
+        }
 
 
 
@@ -367,7 +438,23 @@ public class CreateScenarioActivity extends Activity {
 
             Toast.makeText(getApplicationContext(), "Groupe supprimé avec succès", Toast.LENGTH_LONG).show();
             recreate();
-        }else {
+        }  if (item.getTitle() == "Supprimer Presentation Texte") {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            ArrayList<Scenario> listScenario = getListScenario();
+            Intent Intentgetpos = getIntent();
+            int poscenario = Intentgetpos.getIntExtra("poscenario", -1);
+            if (poscenario == -1) {
+
+                poscenario = listScenario.size() - 1;
+            }
+            listScenario.get(poscenario).setPresTexte("");
+            setListScenario(listScenario);
+
+
+            Toast.makeText(getApplicationContext(), "Presentation Texte supprimée avec succès", Toast.LENGTH_LONG).show();
+            recreate();
+        }
+        else {
             return false;
         }
         return true;

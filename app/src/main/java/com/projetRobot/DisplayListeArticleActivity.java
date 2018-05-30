@@ -3,6 +3,7 @@ package com.projetRobot;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.app.Activity;
@@ -16,17 +17,29 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by Hugo on 29/05/2018.
  */
 
 public class DisplayListeArticleActivity extends Activity {
+    TextToSpeech t1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.displayla_activity);
+        t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    t1.setLanguage(Locale.FRANCE);
+                }
+            }
+        });
+
 
         Intent getpos = getIntent();
         int posGrA = getpos.getIntExtra("posGrA", -1);
@@ -84,6 +97,7 @@ public class DisplayListeArticleActivity extends Activity {
                 public void onClick(View v) {
                     if (listDescription.get(finalJ).getVisibility() == View.GONE) {
                         listDescription.get(finalJ).setVisibility(View.VISIBLE);
+                        t1.speak(listDescription.get(finalJ).getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
 
                     } else {
                         listDescription.get(finalJ).setVisibility(View.GONE);

@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class DisplayScenarioActivity extends Activity {
     private Context context;
     private TextView scenario;
-    private ListView listViewFAQ,listViewGroupePersonne,listViewGroupeArticle;
+    private ListView listViewFAQ,listViewGroupePersonne,listViewGroupeArticle,listViewPT;
 
     @Override
 
@@ -52,15 +52,19 @@ public class DisplayScenarioActivity extends Activity {
         context = this.getApplicationContext();
         listViewFAQ = findViewById(R.id.listViewFAQ);
 
-
+        listViewPT=findViewById(R.id.textPT);
         listViewGroupePersonne=findViewById((R.id.listViewGroupePersonne));
         listViewGroupeArticle=findViewById((R.id.listViewGroupeArticle));
         ArrayList<Faq> listFAQ = new ArrayList<>();
+        ArrayList<String>listPT=new ArrayList<>();
         ArrayList<ConteneurListArticle> list_listArticle = new ArrayList<>();
         ArrayList<ConteneurListPersonne> list_listPersonne = new ArrayList<>();
 
         if (scenariocree.getFaq() != null) {
             listFAQ = scenariocree.getFaq();
+        }
+        if (scenariocree.getPresTexte()!=null&&!scenariocree.getPresTexte().equals("")) {
+            listPT.add("PRESENTATION TEXTE");
         }
         ArrayList<String> listtoString = new ArrayList<>();
         for (int j = 0; j < listFAQ.size(); j++) {
@@ -79,6 +83,8 @@ public class DisplayScenarioActivity extends Activity {
                 android.R.layout.simple_list_item_1,android.R.id.text1,list_listArticle);
         ArrayAdapter<ConteneurListPersonne> adapterlistPersonne = new ArrayAdapter<ConteneurListPersonne>(context,
                 android.R.layout.simple_list_item_1,android.R.id.text1,list_listPersonne);
+        ArrayAdapter<String> adapterPT = new ArrayAdapter<String>(context,
+                android.R.layout.simple_list_item_1, android.R.id.text1, listPT);
         listViewFAQ.setAdapter(adapter);
         listViewFAQ.setOnTouchListener(new View.OnTouchListener() {
             // Setting on Touch Listener for handling the touch inside ScrollView
@@ -90,6 +96,17 @@ public class DisplayScenarioActivity extends Activity {
             }
         });
         setListViewHeightBasedOnChildren(listViewFAQ);
+        listViewPT.setAdapter(adapterPT);
+        listViewPT.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+        setListViewHeightBasedOnChildren(listViewPT);
 
         listViewGroupePersonne.setAdapter(adapterlistPersonne);
         listViewGroupePersonne.setOnTouchListener(new View.OnTouchListener() {
@@ -126,6 +143,25 @@ public class DisplayScenarioActivity extends Activity {
                 Intent i = new Intent(context, DisplayFAQActivity.class);
                 i.putExtra("poscenario", poscenario);
                 i.putExtra("posfaq", position);
+                i.putExtra("scenarioSauvegarde",scenarioSauvegarde);
+                startActivity(i);
+
+
+            }
+        });
+        listViewPT.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> arg0, View view, int position,long itemID) {
+                ArrayList<Scenario> listScenario = getListScenario();
+                Intent Intentgetpos = getIntent();
+                int poscenario = Intentgetpos.getIntExtra("poscenario", -1);
+                if (poscenario == -1) {
+
+                    poscenario = listScenario.size() - 1;
+                }
+
+                Scenario scenarioSauvegarde = (Scenario)Intentgetpos.getSerializableExtra("scenarioSauvegarde");
+                Intent i = new Intent(context, DisplayPTActivity.class);
+                i.putExtra("poscenario", poscenario);
                 i.putExtra("scenarioSauvegarde",scenarioSauvegarde);
                 startActivity(i);
 
